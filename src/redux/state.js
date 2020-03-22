@@ -1,38 +1,57 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import * as serviceWorker from './serviceWorker';
-import {BrowserRouter} from "react-router-dom";
+import profileReducer from "./profile-reducer";
+import dialogsReducer from "./dialogs-reducer";
+import sidebarReducer from "./sidebar-reducer";
 
 
-let postsData = [
-    {message: `Hi? how are you?`, like:`like 10`},
-    {message: `Bla bla`, like:`like 10`},
-    {message: `sdgds`, like:`like 10`},
-    {message: `Bla bla`, like:`like 10`},
-];
-let dialogData = [
-    {id: 1, name:'Dimych'},
-    {id: 2, name: 'Andrey'},
-    {id: 3, name: 'Sveta'},
-    {id: 4, name: 'Sasha'},
-    {id: 5, name: 'Viktor'},
-    {id: 6, name: 'Valera'},
-];
-let messagesData = [
-    {id: 1, message: 'Hi' },
-    {id: 2, message:'How is you learn?'},
-    {id: 3, message:'How are you?'},
-    {id: 4, message:'Bred'},
-];
+let store = {
+    _state: {
+        profilePage: {
+            posts: [
+                {id: 1, message: `Hi? how are you?`, like: `like 10`},
+                {id: 2, message: `Bla bla`, like: `like 10`},
+                {id: 3, message: `sdgds`, like: `like 10`},
+                {id: 4, message: `Bla bla`, like: `like 10`},
+            ],
+            newPostText: 'it-kamasutra',
+        },
+        dialogsPage: {
+            dialogs: [
+                {id: 1, name: 'Dimych'},
+                {id: 2, name: 'Andrey'},
+                {id: 3, name: 'Sveta'},
+                {id: 4, name: 'Sasha'},
+                {id: 5, name: 'Viktor'},
+                {id: 6, name: 'Valera'},
+            ],
+            messages: [
+                {id: 1, message: 'Hi'},
+                {id: 2, message: 'How is you learn?'},
+                {id: 3, message: 'How are you?'},
+                {id: 4, message: 'Bred'},
+            ],
+            newMessageBody: '',
+        },
+        sidebar: {},
+    },
+    _callSubscriber() {
+        console.log('state was changed');
+    },
+    getState() {
+        return this._state
+    },
+    subscribe(observer) {
+        this._callSubscriber = observer;
+    },
 
-ReactDOM.render(
-    <BrowserRouter>
-        <App postsData={postsData} dialogData={dialogData} messagesData={messagesData}/>
-    </BrowserRouter>, document.getElementById('root'));
+    dispatch(action) {
+        this._state.profilePage = profileReducer(this._state.profilePage, action);
+        this._state.dialogsPage = dialogsReducer(this._state.dialogsPage, action);
+        this._state.sidebar = sidebarReducer(this._state.sidebar, action);
+        this._callSubscriber(this._state);
+    }
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();
+}
+
+
+export default store;
+window.store = store;

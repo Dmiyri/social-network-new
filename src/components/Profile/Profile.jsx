@@ -1,30 +1,17 @@
 import React from 'react';
+import s from './Profile.module.css'
+import MyPosts from "./MyPosts/MyPosts";
+import ProfileInfo from "./ProfileInfo/ProfileInfo";
 
-const Profile = () => {
+const Profile = (props) => {
+
     return (
-            <div className='content'>
-                <div>
-                    <img
-                        src='https://jssors8.azureedge.net/demos/image-slider/img/px-beach-daylight-fun-1430675-image.jpg'/>
-                </div>
-                <div>
-                    ava+discription
-                </div>
-                <div>
-                    My post
-                    <div>
-                        New post
-                    </div>
-                    <div>
-                        <div>
-                            post1
-                        </div>
-                        <div>
-                            post2
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <div>
+            <ProfileInfo/>
+            <MyPosts dispatch={props.dispatch}
+                     newPostText={props.profilePage.newPostText}
+                     posts={props.profilePage.posts}/>
+        </div>
     );
 }
 

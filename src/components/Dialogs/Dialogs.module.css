@@ -1,11 +1,20 @@
-.nav {
-    grid-area: n;
-    background-color: chocolate;
+.dialogs{
+display: grid;
+    grid-template-columns: 2fr 10fr;
 }
-.item {
-    color: white;
+.dialogsItems{
+    padding: 10px;
+}
+.dialogsItems .activ{
+    color: gold;
+}
+.dialogsItems .dialog{
+
 }
 
-.item.active{
-    color:gold;
+.messages{
+    padding: 10px;
+}
+.message{
+
 }

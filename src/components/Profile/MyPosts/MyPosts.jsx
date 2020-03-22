@@ -1,32 +1,45 @@
 import React from 'react';
-import s from './Profile.module.css'
+import s from './MyPosts.module.css'
+import Post from "./Post/Post";
+import {addPostActionCreator, updateNewPostTextActionCreator} from "../../../redux/profile-reducer";
 
-const Profile = () => {
+const MyPosts = (props) => {
+
+    let postsElements = props.posts.map(el => <Post message={el.message} like={el.like}/>);
+
+    let newPostElement = React.createRef();
+    let addPost = () => {
+        props.dispatch(addPostActionCreator());
+    };
+
+    let onPostChange = () => {
+        let text = newPostElement.current.value;
+        props.dispatch(updateNewPostTextActionCreator(text));
+    }
+
     return (
-            <div className={s.content}>
+
+        <div className={s.postBlock}>
+            <h3>My post</h3>
+            <div>
                 <div>
-                    <img
-                        src='https://jssors8.azureedge.net/demos/image-slider/img/px-beach-daylight-fun-1430675-image.jpg'/>
+                    <textarea onChange={onPostChange}
+                              ref={newPostElement}
+                              value={props.newPostText}/>
                 </div>
                 <div>
-                    ava+discription
-                </div>
-                <div>
-                    My post
-                    <div className={s.post}>
-                        New post
-                    </div>
-                    <div>
-                        <div className={s.item}>
-                            post1
-                        </div>
-                        <div className={s.item}>
-                            post2
-                        </div>
-                    </div>
+                    <button onClick={addPost}>Add post</button>
                 </div>
             </div>
+            <div className={s.post}>
+                New post
+            </div>
+            <div>
+                {postsElements}
+            </div>
+        </div>
+
     );
 }
 
-export default Profile;
+export default MyPosts;
